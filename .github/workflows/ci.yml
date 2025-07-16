@@ -11,10 +11,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2) Damos permisos de ejecución al script
+      # 2) Configurar Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      # 3) Damos permisos de ejecución al script
       - name: Hacer index.sh ejecutable
         run: chmod +x index.sh
 
-      # 3) Ejecutamos nuestro script
+      # 4) Ejecutamos nuestro script bash
       - name: Ejecutar index.sh
         run: bash index.sh
+
+      # 5) Simular build de proyecto Python
+      - name: Instalar dependencias de build
+        run: pip install build twine
+
+      # 6) Ejecutar el script Python
+      - name: Ejecutar app.py
+        run: python app.py
+
+      # 7) Mostrar mensaje de deploy simulado
+      - name: Deploy simulado
+        run: echo "proceso de deploy completado listo para pypi"
