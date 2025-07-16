@@ -172,3 +172,36 @@ jobs:
 
 ````
 
+**Ejercicio lint con flake8**
+
+se creo lint.py que verifica el estilo del codigo usando flake8:
+
+```python
+import subprocess, sys
+result = subprocess.run(["flake8", "."], capture_output=True)
+print(result.stdout.decode(), file=sys.stderr)
+sys.exit(result.returncode)
+```
+
+workflow ci-lint.yml para verificar estilo:
+
+```yaml
+name: CI Lint
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+    - name: Instalar flake8
+      run: pip install flake8
+    - name: Ejecutar lint
+      run: python lint.py
+```
+
+este workflow falla si hay violaciones de pep8 en el codigo
+se incluyo test_pep8.py con errores para probar que el lint funciona
+
