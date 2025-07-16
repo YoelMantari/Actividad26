@@ -1,0 +1,12 @@
+name: Auto Deploy
+
+on: [push]
+
+jobs:
+  auto:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+    - name: Deploy automatico
+      run: python deploy_auto.py

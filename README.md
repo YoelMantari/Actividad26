@@ -107,3 +107,68 @@ workflow para pypi:
 ```
 
 Este workflow de GitHub Actions llamado CI se ejecuta automaticamente cada vez que haces push al repositorio, primero se descarga el código y configura python en un servidor Ubuntu. Luego da permisos y ejecuta el script bash index.sh, instala dependencias python, y luego ejecuta el archivo app.py y finalmente simula un proceso de deploy mostrando un mensaje de que está listo para PyPI.
+
+## Ejercicios Practico
+
+## ejercicio deploy manual vs automatico
+
+se crearon dos scripts python:
+- deploy_manual.py: pide confirmacion antes de hacer deploy
+
+```python
+import sys
+
+respuesta = input("confirmas deploy? (s/n): ")
+if respuesta.lower() != 's':
+    print("deploy cancelado")
+    sys.exit(1)
+else:
+    print("deploy manual ejecutado")
+
+````
+- deploy_auto.py: hace deploy automaticamente sin preguntar
+```python
+print("iniciando deploy automatico...")
+print("deploy completado automaticamente")
+````
+
+se crearon dos workflows:
+- manual.yml: usa deploy_manual.py y puede fallar si respondes "n"
+cuando haces push. pide confirmacion `s/n` antes del deploy, si respondes `n` el workflow falla, si respondes `s` continua, simula aprobacion manual en el proceso.
+
+```yaml
+name: Manual Deploy
+
+on: [push]
+
+jobs:
+  manual:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+    - name: Deploy manual
+      run: echo "s" | python deploy_manual.py
+
+
+````
+
+- auto.yml: usa deploy_auto.py y siempre funciona
+automaticamente cuando haces push. no pide confirmacion y siempre completa el deploy exitosamente. es rapido y directo.
+
+```yaml
+name: Auto Deploy
+
+on: [push]
+
+jobs:
+  auto:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+    - name: Deploy automatico
+      run: python deploy_auto.py
+
+````
+
