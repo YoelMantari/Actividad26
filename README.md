@@ -110,7 +110,7 @@ Este workflow de GitHub Actions llamado CI se ejecuta automaticamente cada vez q
 
 ## Ejercicios Practico
 
-## ejercicio deploy manual vs automatico
+**Ejercicio deploy manual vs automatico**
 
 se crearon dos scripts python:
 - deploy_manual.py: pide confirmacion antes de hacer deploy
